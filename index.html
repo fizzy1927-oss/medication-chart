@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NBRC Respiratory Med Chart</title>
+<meta name="description" content="Interactive study chart of respiratory medications tested on the NBRC TMC and CSE exams, with flashcards and practice quiz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!--BODY-START-->
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">TMC / CSE study reference</p>
+      <h1>Respiratory Pharmacology Chart</h1>
+      <p class="sub">Every drug on the list with category, strength, dose, effects, side effects, hazards, delivery device, and exam pearls. Browse it, drill it with flashcards, or test yourself with the quiz.</p>
+    </div>
+    <div class="count" id="count"></div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Study views">
+    <button class="tab" role="tab" id="tab-table" data-view="table" aria-selected="true">Table</button>
+    <button class="tab" role="tab" id="tab-cards" data-view="cards" aria-selected="false">Cards</button>
+    <button class="tab" role="tab" id="tab-flash" data-view="flash" aria-selected="false">Flashcards</button>
+    <button class="tab" role="tab" id="tab-quiz" data-view="quiz" aria-selected="false">Quiz</button>
+  </nav>
+
+  <div class="bar">
+    <div class="row" id="searchrow">
+      <input id="q" class="search" type="search" placeholder="Search a drug, brand, side effect, or device (e.g. thrush, Respimat, CF)" aria-label="Search medications">
+      <button id="blur" class="btn" type="button" aria-pressed="false">Hide answers</button>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Filter by drug class"></div>
+    <p class="hint" id="hint"></p>
+  </div>
+
+  <!-- TABLE -->
+  <section id="view-table" role="tabpanel" aria-labelledby="tab-table">
+    <div class="tablebox">
+      <table id="tbl">
+        <thead><tr>
+          <th>Medication<br>Generic (Brand)</th>
+          <th>Strength</th>
+          <th>Dosage</th>
+          <th>Clinical effects &amp; indications</th>
+          <th>Adverse / side effects</th>
+          <th>Hazards / special considerations</th>
+          <th>Device</th>
+          <th>Notes / good to know</th>
+        </tr></thead>
+        <tbody id="tb"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- CARDS -->
+  <section id="view-cards" role="tabpanel" aria-labelledby="tab-cards" hidden>
+    <div class="row" style="margin-top:14px">
+      <button class="btn" type="button" id="expandAll">Expand all</button>
+      <button class="btn" type="button" id="collapseAll">Collapse all</button>
+    </div>
+    <div id="cardsOut"></div>
+  </section>
+
+  <!-- FLASHCARDS -->
+  <section id="view-flash" role="tabpanel" aria-labelledby="tab-flash" hidden>
+    <div class="study">
+      <div class="row">
+        <label class="inline" for="fField">Study
+          <select id="fField">
+            <option value="t">Drug class</option>
+            <option value="str">Strength</option>
+            <option value="dose">Dosage</option>
+            <option value="eff">Clinical effects &amp; indications</option>
+            <option value="adv">Adverse / side effects</option>
+            <option value="haz">Hazards / special considerations</option>
+            <option value="dev">Device</option>
+            <option value="note">Notes / good to know</option>
+            <option value="all" selected>Everything</option>
+          </select>
+        </label>
+        <button class="btn" type="button" id="fShuffle">Shuffle</button>
+        <button class="btn" type="button" id="fHideKnown" aria-pressed="false">Skip known cards</button>
+        <button class="btn" type="button" id="fReset">Reset progress</button>
+      </div>
+      <div class="meter"><span id="fPos"></span><span id="fKnown"></span></div>
+      <div class="progress"><i id="fBar" style="width:0"></i></div>
+      <div class="fcard" id="fCard" tabindex="0" role="button" aria-label="Flashcard. Press Space to flip.">
+        <div class="finner">
+          <div class="face front" id="fFront"></div>
+          <div class="face back" id="fBack"></div>
+        </div>
+      </div>
+      <div class="fctrl">
+        <div class="grp">
+          <button class="btn" type="button" id="fPrev">← Prev</button>
+          <button class="btn" type="button" id="fNext">Next →</button>
+        </div>
+        <div class="grp">
+          <button class="btn bad" type="button" id="fAgain">Still learning</button>
+          <button class="btn good" type="button" id="fGot">I know this</button>
+        </div>
+      </div>
+      <p class="kbd">Keyboard: Space flips · ← → move · K marks known · L marks still learning</p>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="view-quiz" role="tabpanel" aria-labelledby="tab-quiz" hidden>
+    <div class="study" id="quizOut"></div>
+  </section>
+
+  <footer>
+    <p>Duplicates in the original list (indacaterol and ipratropium/albuterol) appear once. "Gentamycin" is listed under its standard spelling, gentamicin.</p>
+    <p>Doses are typical adult values from standard RT pharmacology texts, for exam study. Pediatric doses differ, and several brands listed here are discontinued in the US but still appear in textbooks and practice exams. Always follow the current order and package insert in clinical practice.</p>
+  </footer>
+</div>
+<!--BODY-END-->
+<script src="data.js"></script>
+<script src="quiz.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
