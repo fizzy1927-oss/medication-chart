@@ -1,12 +1,12 @@
 # NBRC Respiratory Pharmacology Chart
 
-An interactive study site for the respiratory medications tested on the NBRC TMC and CSE exams. It covers 45 drugs across 11 classes, with generic and brand names, category, strength, dosage, clinical effects, adverse effects, hazards, delivery device, and exam notes.
+An interactive study site for the respiratory medications tested on the NBRC TMC and CSE exams. It covers 45 drugs across 11 classes, with generic and brand names, category, strength, dosage, onset/peak/duration, clinical effects, adverse effects, hazards, delivery device, and exam notes.
 
 ## Study modes
 
 - **Table**: the full chart. Filter by drug class, search any term (a drug, brand, side effect or device), and turn on **Hide answers** to blur every column except the drug name. Tap a cell to check yourself.
 - **Cards**: one card per drug, grouped by class. Tap a card to open its details. Works well on a phone.
-- **Flashcards**: pick what to study (strength, dosage, side effects, hazards, and so on), flip the card, and mark it **I know this** or **Still learning**. Progress is saved in your browser.
+- **Flashcards**: pick what to study (strength, dosage, onset/peak/duration, side effects, hazards, and so on), flip the card, and mark it **I know this** or **Still learning**. Progress is saved in your browser.
   Keyboard: Space flips · ← → move · K marks known · L marks still learning.
 - **Quiz**: NBRC-style multiple-choice questions mixed with drug-class and brand-name recall. Choose 10, 20, 30 or all questions, get an explanation after each answer, then retry just the ones you missed. Keyboard: A–D or 1–4 to answer.
 
@@ -43,6 +43,7 @@ Open `data.js` and copy an existing entry. Each entry looks like this:
 {c:"beta", g:"Albuterol", b:"Proventil HFA, Ventolin HFA", t:"SABA (short-acting β2 agonist)",
  str:["0.5% (5 mg/mL) concentrate"],
  dose:["SVN: 2.5 mg TID–QID"],
+ opd:{on:"5–15 min", pk:"30–60 min", du:"4–6 hr"},
  eff:["Rapid bronchodilation"],
  adv:["Tachycardia, tremor"],
  haz:["Stop if HR rises more than 20/min"],

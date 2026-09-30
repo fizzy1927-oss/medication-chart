@@ -6,6 +6,7 @@
   const FIELDS = [
     ["str", "Strength", true],
     ["dose", "Dosage", true],
+    ["opd", "Onset · Peak · Duration"],
     ["eff", "Clinical effects & indications"],
     ["adv", "Adverse / side effects"],
     ["haz", "Hazards / special considerations"],
@@ -24,6 +25,7 @@
   const strip = s => String(s).replace(/<[^>]+>/g, "");
   const escapeHTML = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const list = a => `<ul class="b">${a.map(x => `<li>${x}</li>`).join("")}</ul>`;
+  const opd = o => `<dl class="opd"><div><dt>Onset</dt><dd>${o.on}</dd></div><div><dt>Peak</dt><dd>${o.pk}</dd></div><div><dt>Duration</dt><dd>${o.du}</dd></div></dl>`;
   const devs = a => `<div class="dev">${a.map(x => `<span class="tag">${x}</span>`).join("")}</div>`;
   const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   const firstBrand = b => b.split(/[,;(]/)[0].trim();
@@ -31,7 +33,7 @@
 
   D.forEach((d, i) => {
     d.id = i;
-    d._s = strip([d.g, d.b, d.t, CATS[d.c].n, ...FIELDS.flatMap(f => d[f[0]])].join(" ")).toLowerCase();
+    d._s = strip([d.g, d.b, d.t, CATS[d.c].n, ...FIELDS.flatMap(f => f[0] === "opd" ? Object.values(d.opd) : d[f[0]])].join(" ")).toLowerCase();
   });
 
   /* ---------- shared state ---------- */
@@ -124,18 +126,19 @@
   function renderTable() {
     const groups = grouped();
     tb.innerHTML = groups.map(([k, rows]) =>
-      `<tr class="group" style="--k:${K(k)}"><td colspan="8">${CATS[k].n}<span>${CATS[k].s}</span></td></tr>` +
+      `<tr class="group" style="--k:${K(k)}"><td colspan="9">${CATS[k].n}<span>${CATS[k].s}</span></td></tr>` +
       rows.map(d => `<tr style="--k:${K(k)}">
         <td class="name">${nameCell(d)}</td>
         <td class="mono hideable"><div>${list(d.str)}</div></td>
         <td class="mono hideable"><div>${list(d.dose)}</div></td>
+        <td class="t hideable"><div>${opd(d.opd)}</div></td>
         <td class="wide hideable"><div>${list(d.eff)}</div></td>
         <td class="w hideable"><div>${list(d.adv)}</div></td>
         <td class="wide hideable"><div>${list(d.haz)}</div></td>
         <td class="hideable">${devs(d.dev)}</td>
         <td class="wide hideable"><div>${list(d.note)}</div></td>
       </tr>`).join("")
-    ).join("") || `<tr><td colspan="8" class="empty">No medications match "${escapeHTML(q.value)}". Try a generic name, brand, or side effect.</td></tr>`;
+    ).join("") || `<tr><td colspan="9" class="empty">No medications match "${escapeHTML(q.value)}". Try a generic name, brand, or side effect.</td></tr>`;
   }
 
   /* ---------- cards ---------- */
@@ -147,7 +150,7 @@
         <details class="dcard" style="--k:${K(k)}">
           <summary>${nameCell(d)}${devs(d.dev)}<span class="more"></span></summary>
           <div class="dbody">${FIELDS.filter(f => f[0] !== "dev").map(([f, label, mono]) =>
-            `<div class="field"><h4>${label}</h4><div class="${mono ? "mono" : ""}">${list(d[f])}</div></div>`).join("")}
+            `<div class="field"><h4>${label}</h4><div class="${mono ? "mono" : ""}">${f === "opd" ? opd(d.opd) : list(d[f])}</div></div>`).join("")}
           </div>
         </details>`).join("")}</div>`
     ).join("") || `<p class="empty">No medications match "${escapeHTML(q.value)}".</p>`;
@@ -179,7 +182,7 @@
     if (f === "t") return `<div class="field"><h4>Drug class</h4><ul class="b"><li>${d.t}</li><li>${CATS[d.c].n}</li></ul></div>`;
     if (f === "dev") return `<div class="field"><h4>Device</h4>${devs(d.dev)}</div>`;
     const fs = f === "all" ? FIELDS.map(x => x[0]) : [f];
-    return fs.map(x => `<div class="field"><h4>${LABEL[x]}</h4>${x === "dev" ? devs(d.dev) : list(d[x])}</div>`).join("");
+    return fs.map(x => `<div class="field"><h4>${LABEL[x]}</h4>${x === "dev" ? devs(d.dev) : x === "opd" ? opd(d.opd) : list(d[x])}</div>`).join("");
   }
   function renderFlash() {
     const f = fField.value;
