@@ -23,7 +23,7 @@ Class filters apply to every mode, so you can quiz yourself on only anti-infecti
 | `app.js` | Table, cards, flashcards and quiz logic |
 | `.nojekyll` | Tells GitHub Pages to serve the files as-is |
 
-No build step or installs are needed. You can also open `index.html` straight from your computer.
+No build step or installs are needed. Each file link in `index.html` ends in a version number such as `data.js?v=6`. When you change a file, raise that number by one so browsers load the new copy instead of an old saved one. You can also open `index.html` straight from your computer.
 
 ## Put it on GitHub Pages
 
