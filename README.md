@@ -1,12 +1,12 @@
 # NBRC Respiratory Pharmacology Chart
 
-An interactive study site for the respiratory medications tested on the NBRC TMC and CSE exams. It covers 45 drugs across 11 classes, with generic and brand names, category, strength, dosage, onset/peak/duration, clinical effects, adverse effects, hazards, delivery device, and exam notes.
+An interactive study site for the respiratory medications tested on the NBRC TMC and CSE exams. It covers 46 drugs across 11 classes, with generic and brand names, category, strength, dosage, onset/peak/duration, clinical effects, adverse effects, contraindications, hazards, delivery device, and exam notes.
 
 ## Study modes
 
 - **Table**: the full chart. Filter by drug class, search any term (a drug, brand, side effect or device), and turn on **Hide answers** to blur every column except the drug name. Tap a cell to check yourself.
 - **Cards**: one card per drug, grouped by class. Tap a card to open its details. Works well on a phone.
-- **Flashcards**: pick what to study (strength, dosage, onset/peak/duration, side effects, hazards, and so on), flip the card, and mark it **I know this** or **Still learning**. Progress is saved in your browser.
+- **Flashcards**: pick what to study (strength, dosage, onset/peak/duration, side effects, contraindications, hazards, and so on), flip the card, and mark it **I know this** or **Still learning**. Progress is saved in your browser.
   Keyboard: Space flips · ← → move · K marks known · L marks still learning.
 - **Quiz**: NBRC-style multiple-choice questions mixed with drug-class and brand-name recall. Choose 10, 20, 30 or all questions, get an explanation after each answer, then retry just the ones you missed. Keyboard: A–D or 1–4 to answer.
 
@@ -46,10 +46,13 @@ Open `data.js` and copy an existing entry. Each entry looks like this:
  opd:{on:"5–15 min", pk:"30–60 min", du:"4–6 hr"},
  eff:["Rapid bronchodilation"],
  adv:["Tachycardia, tremor"],
+ ci:["Hypersensitivity to albuterol","Relative: tachyarrhythmias"],
  haz:["Stop if HR rises more than 20/min"],
  dev:["Nebulizer","pMDI"],
  note:["Most tested rescue drug"]},
 ```
+
+Start a contraindication with `Relative: ` to show it as a relative contraindication.
 
 `c` must be one of the class keys at the top of the file (`beta`, `anti`, `combo`, `xan`, `bio`, `masto`, `ltm`, `abx`, `muco`, `ster`, `dil`). Wrap a bullet's start in `W("Label")+` to add a red warning flag, for example `W("Boxed warning")+"Never use alone in asthma"`. New drugs show up automatically in every mode, including the auto-generated quiz questions.
 
