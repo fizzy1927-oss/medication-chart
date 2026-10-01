@@ -7,6 +7,7 @@
     ["str", "Strength", true],
     ["dose", "Dosage", true],
     ["opd", "Onset · Peak · Duration"],
+    ["moa", "Mode of action"],
     ["eff", "Clinical effects & indications"],
     ["adv", "Adverse / side effects"],
     ["ci", "Contraindications"],
@@ -128,12 +129,13 @@
   function renderTable() {
     const groups = grouped();
     tb.innerHTML = groups.map(([k, rows]) =>
-      `<tr class="group" style="--k:${K(k)}"><td colspan="10">${CATS[k].n}<span>${CATS[k].s}</span></td></tr>` +
+      `<tr class="group" style="--k:${K(k)}"><td colspan="11">${CATS[k].n}<span>${CATS[k].s}</span></td></tr>` +
       rows.map(d => `<tr style="--k:${K(k)}">
         <td class="name">${nameCell(d)}</td>
         <td class="mono hideable"><div>${list(d.str)}</div></td>
         <td class="mono hideable"><div>${list(d.dose)}</div></td>
         <td class="t hideable"><div>${opd(d.opd)}</div></td>
+        <td class="wide hideable"><div>${list(d.moa)}</div></td>
         <td class="wide hideable"><div>${list(d.eff)}</div></td>
         <td class="w hideable"><div>${list(d.adv)}</div></td>
         <td class="w hideable"><div>${cis(d.ci)}</div></td>
@@ -141,7 +143,7 @@
         <td class="hideable">${devs(d.dev)}</td>
         <td class="wide hideable"><div>${list(d.note)}</div></td>
       </tr>`).join("")
-    ).join("") || `<tr><td colspan="10" class="empty">No medications match "${escapeHTML(q.value)}". Try a generic name, brand, or side effect.</td></tr>`;
+    ).join("") || `<tr><td colspan="11" class="empty">No medications match "${escapeHTML(q.value)}". Try a generic name, brand, or side effect.</td></tr>`;
   }
 
   /* ---------- cards ---------- */
